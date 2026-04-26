@@ -1,70 +1,326 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,900&display=swap');
-*{
-    font-family: 'Poppins',cursive;
-}
-body{
-    color: azure;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-}
-.greetings{
-    font-size: 6rem;
-    font-weight: 900;
-}
-.greetings > span{
-    animation: glow 2.5s ease-in-out infinite;
-}
-@keyframes glow{
-    0%, 100%{
-        color: #fff;
-        text-shadow: 0 0 12px #39c6d6, 0 0 50px #39c6d6, 0 0 100px #39c6d6;
-    }
-    10%, 90%{
-        color: #111;
-        text-shadow: none;
-    }
-}
-.greetings > span:nth-child(2){
-    animation-delay: .2s ;
-}
-.greetings > span:nth-child(3){
-    animation-delay: .4s ;
-}
-.greetings > span:nth-child(4){
-    animation-delay: .6s;
-}
-.greetings > span:nth-child(5){
-    animation-delay: .8s;
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
 }
 
-.description{
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+:root {
+  --teal: #39c6d6;
+  --rose: #e0579a;
+  --dark: #000;
 }
 
-.button a{
-    text-decoration: none;
-    font-size: 1rem;
-    color: #111;
+/* ── BODY ── */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark);
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  color: azure;
+  cursor: default;
 }
 
-@media screen and (max-width:574px){
-    .greetings{
-        display: block;
-        font-size: 3rem;
-        font-weight: 500;
-        text-align: center;
-    }
-    .description{
-        font-size: 1rem;
-    }
-    
-    .button a{
-        font-size: .5rem;
-    }
+/* ── STAR FIELD ── */
+.stars-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Stars dibuat via JS — tambahkan snippet JS di bawah ke HTML */
+
+/* ── GLASS CARD ── */
+.glass-card {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 3rem 3.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-radius: 2rem;
+  border: 1px solid rgba(57, 198, 214, 0.25);
+  box-shadow:
+    0 0 40px rgba(57, 198, 214, 0.08),
+    0 0 80px rgba(224, 87, 154, 0.06),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  animation: cardFloat 6s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── GREETINGS (HALLO) ── */
+.greetings {
+  display: flex;
+  gap: 0.1em;
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(3.5rem, 10vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.letter {
+  display: inline-block;
+  animation: glow 2.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    color: #fff;
+    text-shadow:
+      0 0 12px var(--teal),
+      0 0 50px var(--teal),
+      0 0 100px var(--teal);
+  }
+  10%, 90% {
+    color: #1a1a1a;
+    text-shadow: none;
+  }
+}
+
+.letter:nth-child(1) { animation-delay: 0.0s; }
+.letter:nth-child(2) { animation-delay: 0.2s; }
+.letter:nth-child(3) { animation-delay: 0.4s; }
+.letter:nth-child(4) { animation-delay: 0.6s; }
+.letter:nth-child(5) { animation-delay: 0.8s; }
+
+/* ── DESCRIPTION ── */
+.description p {
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  font-weight: 300;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.03em;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInUp 1.2s 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ── BUTTON ── */
+.button-area {
+  opacity: 0;
+  animation: fadeInUp 1.2s 1.8s ease forwards;
+}
+
+.btn-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2.2rem;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(57,198,214,0.25), rgba(224,87,154,0.25));
+  border: 1px solid rgba(57,198,214,0.45);
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(57,198,214,0.15);
+}
+
+.btn-glow:hover {
+  background: linear-gradient(135deg, rgba(57,198,214,0.45), rgba(224,87,154,0.45));
+  box-shadow:
+    0 0 25px rgba(57,198,214,0.4),
+    0 0 50px rgba(224,87,154,0.2);
+  transform: scale(1.05);
+}
+
+.icon-heart {
+  font-style: normal;
+  animation: heartBeat 1.2s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1);    }
+  50%       { transform: scale(1.35); }
+}
+
+/* ── FLOWER FOOTER DECOR ── */
+.flower-footer {
+  position: fixed;
+  bottom: -10px;
+  z-index: 5;
+  opacity: 0.35;
+  pointer-events: none;
+  filter: blur(1px) brightness(0.7);
+}
+.flower-footer img {
+  height: 80px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .glass-card { padding: 2rem 1.8rem; gap: 1.2rem; }
+  .description p { font-size: 0.9rem; }
+  .btn-glow { font-size: 0.8rem; padding: 0.6rem 1.6rem; }
+}
+/* ── AURORA / NEBULA BACKGROUND ── */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 40% at 20% 60%, rgba(57,198,214,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(224,87,154,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 50% 80%, rgba(155,89,182,0.08) 0%, transparent 70%);
+  animation: auroraPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes auroraPulse {
+  0%   {
+    background:
+      radial-gradient(ellipse 80% 40% at 20% 60%, rgba(57,198,214,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(224,87,154,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 50% 80%, rgba(155,89,182,0.08) 0%, transparent 70%);
+  }
+  100% {
+    background:
+      radial-gradient(ellipse 80% 40% at 60% 40%, rgba(57,198,214,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 20% 70%, rgba(224,87,154,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 20%, rgba(155,89,182,0.12) 0%, transparent 70%);
+  }
+}
+
+/* ── MOON ── */
+.moon {
+  position: fixed;
+  top: 5vh;
+  right: 6vw;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffde7, #f9d976 55%, #e6b800);
+  box-shadow:
+    0 0 20px rgba(249,217,118,0.5),
+    0 0 50px rgba(249,217,118,0.2),
+    0 0 90px rgba(249,217,118,0.08);
+  animation: moonFloat 7s ease-in-out infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Kawah bulan */
+.moon::before {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  top: 12px; left: 14px;
+  background: rgba(0,0,0,0.07);
+  box-shadow:
+    14px 10px 0 6px rgba(0,0,0,0.05),
+    6px  22px 0 3px rgba(0,0,0,0.04);
+}
+
+/* Halo bulan */
+.moon::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,217,118,0.15) 0%, transparent 70%);
+  animation: moonGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes moonFloat {
+  0%, 100% { transform: translateY(0)    rotate(-4deg); }
+  50%       { transform: translateY(-10px) rotate(4deg); }
+}
+@keyframes moonGlow {
+  from { opacity: 0.6; transform: scale(1);   }
+  to   { opacity: 1;   transform: scale(1.15); }
+}
+
+/* ── METEOR / SHOOTING STAR ── */
+/* Dibuat via JS, tapi CSS-nya di sini */
+.meteor {
+  position: fixed;
+  top: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 40%, #39c6d6);
+  box-shadow: 0 0 6px rgba(57,198,214,0.8);
+  pointer-events: none;
+  z-index: 3;
+  transform-origin: top center;
+  animation: meteorFall var(--dur) var(--delay) linear forwards;
+}
+
+@keyframes meteorFall {
+  0%   { opacity: 0;   transform: translateY(-10px) rotate(var(--angle)) scaleY(0.3); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0;   transform: translateY(110vh) rotate(var(--angle)) scaleY(1); }
+}
+
+/* ── AQILA INTRO ANIMATION ── */
+.aqila-intro {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 0.05em;
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  letter-spacing: 0.15em;
+  margin-bottom: -0.8rem;
+  min-height: 2.8rem;
+}
+
+.aqila-letter {
+  display: inline-block;
+  color: transparent;
+  opacity: 0;
+  animation: aqilaReveal 0.6s calc(var(--i) * 0.18s + 0.3s) ease forwards;
+  background: linear-gradient(135deg, var(--teal), var(--rose));
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 8px rgba(57,198,214,0.6));
+}
+
+@keyframes aqilaReveal {
+  0%   { opacity: 0; transform: translateY(-20px) scale(0.6); filter: blur(6px); }
+  60%  { filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0)     scale(1);   filter: blur(0);   }
+}
+
+/* Setelah AQILA muncul semua, fade out perlahan lalu HALLO muncul */
+.aqila-intro.fade-away {
+  animation: aqilaFadeAway 0.8s ease forwards;
+}
+@keyframes aqilaFadeAway {
+  to { opacity: 0; transform: translateY(-16px); }
+}
+
+/* ── MOUSE TRAIL ── */
+/* Titik trail dibuat via JS */
+.trail-dot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: trailFade 0.6s ease forwards;
+}
+@keyframes trailFade {
+  0%   { opacity: 0.9; transform: translate(-50%,-50%) scale(1);   }
+  100% { opacity: 0;   transform: translate(-50%,-50%) scale(0.2); }
 }

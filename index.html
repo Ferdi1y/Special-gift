@@ -1,30 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/flowers.png" type="image/x-icon">
-    <title>Flowers</title>
+    <title>For Aqila</title>
 </head>
 <body>
-    <div class="greetings">
-    <!-- silahkan menambah kata sesuai keinginan dengan <span>text...</span -->
-        <span>H</span>
-        <span>A</span>
-        <span>L</span>
-        <span>L</span>
-        <span>O</span>
+    <div class="stars-container"></div> 
+<!-- Tambah setelah <div class="stars-container"></div> -->
+<div class="aurora"></div>
+<div class="moon"></div>
+
+<div class="aqila-intro" id="aqilaIntro">
+  <span class="aqila-letter" style="--i:0">A</span>
+  <span class="aqila-letter" style="--i:1">Q</span>
+  <span class="aqila-letter" style="--i:2">I</span>
+  <span class="aqila-letter" style="--i:3">L</span>
+  <span class="aqila-letter" style="--i:4">A</span>
+  <span class="aqila-letter" style="--i:6">P.</span>
+  <span class="aqila-letter" style="--i:7">M</span>
+  
+
+
+</div>
+
+    <main class="glass-card">
+        <header class="greetings">
+            <span class="letter">H</span>
+            <span class="letter">A</span>
+            <span class="letter">L</span>
+            <span class="letter">L</span>
+            <span class="letter">O</span>
+            <span class="letter">W</span>
+
+        </header>
+
+        <section class="description">
+            <p class="fade-in">Aqila, I have a little surprise waiting for you...</p>
+        </section>
+
+        <footer class="button-area">
+            <a href="flower.html" class="btn-glow">
+                <span>Open Your Gift</span>
+                <i class="icon-heart">❤️</i>
+            </a>
+        </footer>
+    </main>
+
+    <div class="flower-footer">
+        <img src="img/flowers.png" alt="decor">
     </div>
-    <div class="description">
-        <span>Aku ada hadiah spesial buat kamu!!</span>
-    </div>
-    <div class="button">
-        <button>
-            <a href="flower.html">Klik disini</a>
-        </button>
-        
-    </div>
+    <script>
+/* ── METEOR SPAWNER ── */
+function spawnMeteor() {
+  const m = document.createElement('div');
+  m.className = 'meteor';
+  const height = 80 + Math.random() * 120;
+  const angle  = 20 + Math.random() * 25; // deg miring
+  m.style.cssText = `
+    left: ${10 + Math.random() * 80}%;
+    height: ${height}px;
+    --angle: ${angle}deg;
+    --dur: ${1.2 + Math.random() * 1.4}s;
+    --delay: 0s;
+  `;
+  document.body.appendChild(m);
+  setTimeout(() => m.remove(), 3000);
+}
+// Spawn meteor acak setiap 2–5 detik
+function scheduleMeteor() {
+  spawnMeteor();
+  setTimeout(scheduleMeteor, 2000 + Math.random() * 3000);
+}
+scheduleMeteor();
+
+/* ── AQILA → HALLO SEQUENCE ── */
+const aqilaIntro = document.getElementById('aqilaIntro');
+const glassCard  = document.querySelector('.glass-card');
+
+// Sembunyikan glass-card dulu
+glassCard.style.opacity = '0';
+glassCard.style.transform = 'translateY(20px)';
+glassCard.style.transition = 'opacity 0.4s ease, transform 0.5s ease';
+
+// Setelah semua huruf AQILA muncul (5 huruf × 0.18s + 0.3s offset + 0.6s animasi ≈ 1.8s)
+setTimeout(() => {
+  aqilaIntro.classList.add('fade-away');
+
+  setTimeout(() => {
+    aqilaIntro.style.display = 'none';
+    // Munculkan glass-card
+    glassCard.style.opacity = '1';
+    glassCard.style.transform = 'translateY(0)';
+  }, 800);
+}, 1900);
+
+/* ── MOUSE TRAIL ── */
+const TRAIL_EMOJIS = ['⭐','✦','·','★','✧'];
+let lastTrail = 0;
+
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - lastTrail < 40) return; // throttle ~25fps
+  lastTrail = now;
+
+  const dot = document.createElement('div');
+  dot.className = 'trail-dot';
+  const size = 4 + Math.random() * 8;
+  const emoji = Math.random() > 0.5
+    ? TRAIL_EMOJIS[Math.floor(Math.random() * TRAIL_EMOJIS.length)]
+    : null;
+
+  if (emoji) {
+    dot.textContent = emoji;
+    dot.style.cssText = `
+      left:${e.clientX}px; top:${e.clientY}px;
+      font-size:${10 + Math.random()*10}px;
+      color:rgba(57,198,214,${0.5 + Math.random()*0.5});
+    `;
+  } else {
+    dot.style.cssText = `
+      left:${e.clientX}px; top:${e.clientY}px;
+      width:${size}px; height:${size}px;
+      background: radial-gradient(circle, #fff, rgba(57,198,214,0.6));
+      box-shadow: 0 0 6px rgba(57,198,214,0.5);
+    `;
+  }
+
+  document.body.appendChild(dot);
+  setTimeout(() => dot.remove(), 600);
+});
+</script>
 </body>
 </html>
